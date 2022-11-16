@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/labstack/echo/v4"
@@ -20,10 +19,9 @@ func setContextLogger(logger echo.Logger) echo.MiddlewareFunc {
 			c.Logger().SetOutput(logger.Output())
 
 			// Force the auth middleware to set a header in the request (X-LoggedUserID) and use it
-			// to provide a Format in the middleware.Logger to hace the default format with previous header.
-			requestID := c.Response().Header().Get(echo.HeaderXRequestID)
+			// to provide a Format in the middleware.Logger to have the default format with previous header.
 
-			c.Logger().SetHeader(fmt.Sprintf(`{"id":"%s",,"time":"${time_rfc3339_nano},"level":"${level}","id":"${id}","prefix":"${prefix}","file":"${short_file}","line":"${line}"}"`, requestID))
+			c.Logger().SetHeader(`{"id":"${header:X-Request-ID}",,"time":"${time_rfc3339_nano},"level":"${level}","id":"${id}","prefix":"${prefix}","file":"${short_file}","line":"${line}"}"`)
 			c.Logger().SetLevel(getLogLevel(c))
 
 			// We wan't know if the logger is different in each request:
