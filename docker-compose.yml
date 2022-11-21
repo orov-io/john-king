@@ -1,0 +1,20 @@
+version: "3"
+services:
+  john-king:
+    image: orovium/john-king
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: dev
+    container_name: john-king
+    ports:
+      - 1323:1323
+      - 4000:4000
+    volumes:
+     - ./:/app
+    environment:
+      - PORT=80
+      - CGO_ENABLED=0
+    env_file:
+      - .env
+    restart: "no"
